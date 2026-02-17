@@ -1,44 +1,169 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container" style="max-width: 400px; margin-top: 50px;">
-    <h2>Entrar no Nebbia Studio</h2>
-    <div>
-       <form action="/login" method="POST" style=" align-items: center; background-color: var(--accent); padding: 40px; border-radius: 8px;">
-        
-        <label>Email:</label>
-        <input type="email" name="email" required placeholder="email@exemplo.com"><br>
-        
-        <label>Senha:</label>
-        <div class="password-container">
-        <input type="password" name="senha" id="senhaInput" required placeholder="Sua senha">
-    
-          <svg onclick="toggleSenha()" class="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
+<div class="auth-fullscreen">
+    <div class="auth-panel-info">
+        <svg class="wave-pattern" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <path fill="rgba(255,255,255,0.05)" d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+
+        <div class="info-overlay">
+            <img src="{{ url_for('static', filename='imagem/logonebbia.png') }}" alt="Nebbia Logo" class="fullscreen-logo">
+
+            <p>Acesse seu painel para continuar transformando ideias em roteiros incríveis.</p>
         </div>
-        
-        <button type="submit" class="btn" style="width: 100%; margin-top: 10px; font-weight: bold;">Entrar</button>
-    </form> 
     </div>
-    
-    
-    <p style="margin-top: 20px; color: #aaa;">
-        Ainda não tem conta? <a href="{{ url_for('cadastro') }}" style="color: var(--accent);">Cadastre-se</a>
-    </p>
+
+    <div class="auth-panel-form">
+        <div class="form-wrapper">
+            <h2>Login</h2>
+            <p class="subtitle">Insira suas credenciais para entrar.</p>
+
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" name="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label>Senha</label>
+                    <div class="password-field">
+                        <input type="password" name="senha" id="senhaInput" required placeholder="••••••••">
+                        <svg onclick="toggleSenha()" class="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn-full">Entrar</button>
+            </form>
+
+            <p class="footer-link">
+                Ainda não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se agora</a>
+            </p>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Reset e Estrutura Full Screen */
+    .auth-fullscreen {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+    }
+
+    /* Painel Esquerdo (Roxo com Ondas) */
+    .auth-panel-info {
+        flex: 1;
+        background: linear-gradient(135deg, #6c32ff 0%, #3b1499 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        padding: 50px;
+        position: relative;
+    }
+
+    .wave-pattern {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+    }
+
+    .info-overlay {
+        max-width: 400px;
+        text-align: left;
+        z-index: 2;
+    }
+    .fullscreen-logo { height: 70px; margin-bottom: 20px; }
+    .info-overlay h1 { font-size: 3rem; margin: 0; font-family: 'Inter', sans-serif; }
+    .info-overlay p { font-size: 1.2rem; opacity: 0.8; margin-top: 10px; }
+
+    /* Painel Direito (Limpo) */
+    .auth-panel-form {
+        flex: 1;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+    }
+
+    .form-wrapper { width: 100%; max-width: 400px; }
+    .form-wrapper h2 { color: #1a1a1a; font-size: 2.2rem; margin-bottom: 5px; }
+    .subtitle { color: #666; margin-bottom: 30px; }
+
+    /* Inputs e Botões */
+    .input-group { margin-bottom: 20px; }
+    .input-group label { display: block; color: #333; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+
+    .input-group input {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background: #fdfdfd;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .password-field { position: relative; }
+    .eye-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+        color: #999;
+        cursor: pointer;
+    }
+
+    .form-options { text-align: right; margin-bottom: 25px; }
+    .forgot-password { color: #6c32ff; font-size: 0.85rem; text-decoration: none; }
+
+    .btn-full {
+        width: 100%;
+        padding: 16px;
+        background-color: #bcf521;
+        color: #121212;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-full:hover { background-color: #bcf521; transform: scale(1.02); }
+
+    .footer-link { text-align: center; margin-top: 25px; color: #777; }
+    .footer-link a { color: #6c32ff; text-decoration: none; font-weight: bold; }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+        .auth-panel-info { display: none; }
+    }
+</style>
+
 <script>
     function toggleSenha() {
         var input = document.getElementById("senhaInput");
         var icon = document.querySelector(".eye-icon");
-        
         if (input.type === "password") {
-            input.type = "text"; // Mostra a senha
-            icon.style.color = "#bcf521"; // O olho fica verde aceso
+            input.type = "text";
+            icon.style.color = "#6c32ff";
         } else {
-            input.type = "password"; // Esconde a senha
-            icon.style.color = "#888"; // O olho volta a ficar cinza
+            input.type = "password";
+            icon.style.color = "#999";
         }
     }
 </script>

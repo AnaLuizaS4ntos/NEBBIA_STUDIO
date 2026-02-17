@@ -1,48 +1,167 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container" style="max-width: 400px; margin-top: 50px;">
-    
-    <h2>Criar Conta</h2>
-    
-    <div style="display: flex; justify-content: center;">
-        <form action="/cadastro" method="POST" style="background-color: var(--accent); padding: 40px; border-radius: 12px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-
-            <label>Nome:</label>
-            <input type="text" name="nome" required placeholder="Seu nome de usuário">
-
-            <label>Email:</label>
-            <input type="email" name="email" required placeholder="email@exemplo.com">
-
-            <label>Senha:</label>
-            <div class="password-container">
-                <input type="password" name="senha" id="senhaInput" required placeholder="Sua senha">
-                <svg onclick="toggleSenha()" class="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-            </div>
-        
-
-            <button type="submit" class="btn" style="width: 100%; margin-top: 10px; font-weight: bold;">
-                Cadastrar
-            </button>
-
-        </form>
+<div class="auth-fullscreen">
+    <div class="auth-panel-info">
+        <div class="info-overlay">
+            <img src="{{ url_for('static', filename='imagem/logonebbia.png') }}" alt="Nebbia Logo" class="fullscreen-logo" >
+            <h2 >Bem-vindo(a) ao Nebbia Studio!</h2>
+            <p>Sua plataforma para criação e gestão de roteiros.</p>
+        </div>
     </div>
 
+    <div class="auth-panel-form">
+        <div class="form-wrapper">
+            <h2>Criar Conta</h2>
+            <p class="subtitle">Comece sua jornada criativa hoje.</p>
+
+            <form action="/cadastro" method="POST">
+                <div class="input-group">
+                    <label>Nome de usuário</label>
+                    <input type="text" name="nome" required placeholder="Ex: @nebbiastudio">
+                </div>
+
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" name="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label>Senha</label>
+                    <div class="password-field">
+                        <input type="password" name="senha" id="senhaInput" required placeholder="••••••••">
+                        <svg onclick="toggleSenha()" class="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-full">Cadastrar</button>
+            </form>
+
+            <p class="footer-link">
+                Já tem conta? <a href="{{ url_for('login') }}">Faça login</a>
+            </p>
+        </div>
+    </div>
 </div>
+
+<style>
+        /* Reset e Estrutura Full Screen */
+    .auth-fullscreen {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+    }
+
+    /* Painel Esquerdo (Roxo com Ondas) */
+    .auth-panel-info {
+        flex: 1;
+        background: linear-gradient(135deg, #6c32ff 0%, #3b1499 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        padding: 50px;
+        position: relative;
+    }
+
+    .wave-pattern {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+
+    }
+
+    .info-overlay {
+        max-width: 400px;
+        text-align: left;
+        z-index: 2;
+    }
+    .fullscreen-logo { height: 70px; margin-bottom: 20px; }
+    .info-overlay h1 { font-size: 3rem; margin: 0; font-family: 'Inter', sans-serif; }
+    .info-overlay p { font-size: 1.2rem; opacity: 0.8; margin-top: 10px; }
+
+    /* Painel Direito (Limpo) */
+    .auth-panel-form {
+        flex: 1;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+    }
+
+    .form-wrapper { width: 100%; max-width: 400px; }
+    .form-wrapper h2 { color: #1a1a1a; font-size: 2.2rem; margin-bottom: 5px; }
+    .subtitle { color: #666; margin-bottom: 30px; }
+
+    /* Inputs e Botões */
+    .input-group { margin-bottom: 20px; }
+    .input-group label { display: block; color: #333; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+
+    .input-group input {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background: #fdfdfd;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .password-field { position: relative; }
+    .eye-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+        color: #999;
+        cursor: pointer;
+    }
+
+    .form-options { text-align: right; margin-bottom: 25px; }
+    .forgot-password { color: #6c32ff; font-size: 0.85rem; text-decoration: none; }
+
+    .btn-full {
+        width: 100%;
+        padding: 16px;
+        background-color: #bcf521;
+        color: #121212;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-full:hover { background-color: #bcf521; transform: scale(1.02); }
+
+    .footer-link { text-align: center; margin-top: 25px; color: #777; }
+    .footer-link a { color: #6c32ff; text-decoration: none; font-weight: bold; }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+        .auth-panel-info { display: none; }
+    }
+</style>
+
 <script>
     function toggleSenha() {
         var input = document.getElementById("senhaInput");
         var icon = document.querySelector(".eye-icon");
-        
         if (input.type === "password") {
-            input.type = "text"; // Mostra a senha
-            icon.style.color = "#bcf521"; // O olho fica verde aceso
+            input.type = "text";
+            icon.style.color = "#6c32ff";
         } else {
-            input.type = "password"; // Esconde a senha
-            icon.style.color = "#888"; // O olho volta a ficar cinza
+            input.type = "password";
+            icon.style.color = "#999";
         }
     }
 </script>

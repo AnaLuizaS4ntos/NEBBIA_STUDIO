@@ -6,66 +6,59 @@
     <title>Nebbia Studio</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Faz o rodapé ficar sempre embaixo */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .main-content {
-            flex: 1;
-        }
 
-        /* Arruma a Navbar */
-        nav {
-            display: flex;
-            justify-content: space-between; 
-            align-items: center;
-            padding: 15px 40px; /* Espaço nas laterais */
-            flex-wrap: nowrap; /* PROIBIDO quebrar linha na barra inteira */
-        }
-
-        /* Garante que o texto do menu nunca quebre linha */
-        .nav-menu {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            white-space: nowrap; /* Texto fica em uma linha só */
-        }
-    </style>
 </head>
 <body>
-
+    {% if request.endpoint != 'cadastro' and request.endpoint != 'login' %}
     <nav class="no-print">
         <div style="display: flex; align-items: center;">
             <a href="{{ url_for('index') }}">
-              <img src="{{ url_for('static', filename='imagem/logonebbia.png') }}" alt="Logo Nebbia" style="height: 40px;">
+              <img src="{{ url_for('static', filename='imagem/logonebbia.png') }}" alt="Logo Nebbia" style="height: 45px; margin-top: 2px;">
             </a>
+
         </div>
 
         <div class="nav-menu">
             
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('meus_roteiros') }}" style="color: #e0e0e0; text-decoration: none;">Meus Roteiros</a>
-                
                 <a href="{{ url_for('criar') }}" class="btn btn-primary" style="margin-top: 2px;">+ Criar</a>
                 
-                <span style="color: #666;">|</span> 
-                
-                <span style="font-weight: bold; color: #fff;">{{ current_user.nome }}</span>
-                
-                <a href="{{ url_for('logout') }}" style="color: #ff6b6b; font-size: 0.9em; text-decoration: none;">Sair</a>
-            
+                <div class="profile-container">
+                    <button class="profile-trigger" onclick="toggleMenu()" id="profileBtn">
+                        <img src="{{ url_for('static', filename='imagem/default-avatar.png') }}" 
+                             onerror="this.src='https://ui-avatars.com/api/?name={{ current_user.nome }}&background=222&color=fff'" 
+                             alt="Perfil" class="profile-img">
+                    </button>
+
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="menu-header">
+                            <img src="{{ url_for('static', filename='imagem/default-avatar.png') }}" 
+                                 onerror="this.src='https://ui-avatars.com/api/?name={{ current_user.nome }}&background=222&color=fff'" 
+                                 alt="Avatar">
+                            <div class="user-details">
+                                <span class="user-name">{{ current_user.nome }}</span>
+                                <span class="user-role">Roteirista</span>
+                            </div>
+                        </div>
+
+                        <div class="menu-links">
+                            <a href="#">Gerenciar Perfis</a>
+                            <a href="#">Configurações</a>
+                            <a href="#">Conta</a>
+                            <a href="{{ url_for('logout') }}" class="sair">Sair</a>
+                        </div>
+                    </div>
+                </div>
+
             {% else %}
                 <a href="{{ url_for('login') }}" style="color: #e0e0e0; text-decoration: none;">Login</a>
-                <a href="{{ url_for('cadastro') }}" class="btn btn-primary" style="margin-top: 2px;">Cadastro</a> 
+                <a href="{{ url_for('cadastro') }}" class="btn btn-primary" style="margin-top: 2px;">Cadastro</a>
             {% endif %}
             
         </div>
     </nav>
-    
+    {% endif %}
     <div class="main-content">
         {% block content %}
         {% endblock %}
@@ -74,13 +67,29 @@
     <footer class="site-footer no-print">
         <div class="footer-content" style="padding: 30px; text-align: center; border-top: 1px solid #333; margin-top: 40px;">
             <p style="color: #888;">&copy; 2026 <strong>Nebbia Studio</strong></p>
-            
             <p class="dev-credit" style="color: #666; font-size: 0.9em;">
                 Code & Design by 
                 <a href="https://github.com/AnaLuizaS4ntos" target="_blank" style="color: #bcf521; text-decoration: none;">Ana Luíza Santos</a>
             </p>
         </div>
     </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("profileMenu");
+            menu.classList.toggle("active");
+        }
+
+        window.onclick = function(event) {
+            const menu = document.getElementById("profileMenu");
+            const btn = document.getElementById("profileBtn");
+            if (!btn.contains(event.target) && !menu.contains(event.target)) {
+                if (menu.classList.contains('active')) {
+                    menu.classList.remove('active');
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>

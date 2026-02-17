@@ -6,11 +6,11 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-# Onde os PDFs moram
+# Onde os PDFs ficam!!!
 app.config['UPLOAD_FOLDER'] = 'static/pdfs' 
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-app.config['SECRET_KEY'] = 'chave-secreta-nebbia'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave-secreta-nebbia')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
@@ -27,14 +27,14 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
-# 2. MODELO DO USUÁRIO 
+# MODELO DO USUÁRIO
 class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     senha = db.Column(db.String(100), nullable=False)
 
-# 3. INICIALIZAÇÃO DO BANCO 
+# INICIALIZAÇÃO DO BANCO
 def init_db():
     with app.app_context():
         db.create_all()
@@ -84,7 +84,7 @@ def cadastro():
             
     return render_template("registrar.html")
 
-# ### NOVO: A ROTA DE LOGIN ###
+# ###  A ROTA DE LOGIN ###
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -103,7 +103,7 @@ def login():
             
     return render_template("login.html")
 
-# ### NOVO: ROTA DE LOGOUT (SAIR) ###
+# ### ROTA DE LOGOUT (SAIR) ###
 @app.route("/logout")
 @login_required
 def logout():
@@ -131,7 +131,7 @@ def criar():
         arquivo = request.files.get('arquivo_pdf')
         nome_pdf = None 
 
-        # Se tiver arquivo e for PDF, salva
+        # Se tiver arquivo e for PDF, salva!!! importante
         if arquivo and arquivo.filename != '':
             filename = secure_filename(arquivo.filename)
             arquivo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -140,7 +140,7 @@ def criar():
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
         
-        # Salvamos Título, Conteúdo, ID do Usuário E O PDF
+        # Salvamos Título, Conteúdo, ID do Usuário E O PDF!
         cursor.execute("""
             INSERT INTO roteiros (titulo, conteudo, id_usuario, pdf)
             VALUES (?, ?, ?, ?)
@@ -161,21 +161,21 @@ def ler(id):
     conn.close()
     return render_template("ler.html", roteiro=roteiro)
 
-# Adicione isso junto com as outras rotas
+# Adicionei isso junto com as outras rotas para os roteiros
 @app.route("/meus_roteiros")
 @login_required
 def meus_roteiros():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     
-    # Filtra o usuario logado
+    # Filtra o usuario logado!!
     cursor.execute("SELECT * FROM roteiros WHERE id_usuario = ?", (current_user.id,))
     meus_roteiros = cursor.fetchall()
     
     conn.close()
     return render_template("meus_roteiros.html", roteiros=meus_roteiros)
 
-# Rota para EXCLUIR um roteiro
+# Rota para EXCLUIR um roteiro, CRUD
 @app.route('/deletar/<int:id>')
 @login_required
 def deletar(id):
@@ -192,5 +192,8 @@ def deletar(id):
     conn.close()
     return redirect(url_for('meus_roteiros'))
 
+## para o Render na hospedagem
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Garante que o app use a porta correta no servidor ou 5000 localmente
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)

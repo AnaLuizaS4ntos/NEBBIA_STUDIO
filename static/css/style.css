@@ -293,3 +293,148 @@ input:focus {
 .eye-icon:hover {
     color: #bcf521;   /* Fica VERDE NEBBIA quando passa o mouse */
 }
+
+/* NAVBAR E MENU DE PERFIL */
+
+/* 1. Garante que a barra espalhe o conteúdo */
+nav {
+    justify-content: space-between !important; 
+    align-items: center;
+    display: flex;
+}
+
+/* 2. Arruma o grupo de links da direita */
+.nav-menu {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    white-space: nowrap; /* Não deixa quebrar linha */
+}
+
+/* 3. ESTILO DO MENU DE PERFIL */
+.profile-container {
+    position: relative;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* O botão invisível da foto */
+.profile-trigger {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer;
+    display: block;
+    appearance: none;
+}
+
+/* A Foto Redonda */
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent; 
+    transition: 0.2s ease;
+    display: block;
+}
+
+/* Efeito Neon na Borda ao passar o mouse */
+.profile-trigger:hover .profile-img {
+    border-color: #bcf521; /* Verde Neon */
+    box-shadow: 0 0 8px rgba(188, 245, 33, 0.4);
+}
+
+/* O Menu Dropdown (Caixa preta que abre) */
+.dropdown-menu {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    right: 0;
+    top: 55px;
+    background-color: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(5px);
+    min-width: 220px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    z-index: 1000;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+    text-align: left; /* Garante texto alinhado à esquerda */
+}
+
+/* Classe que o JavaScript usa para mostrar o menu */
+.dropdown-menu.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cabeçalho do Menu (Foto + Nome) */
+.menu-header {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #333;
+    background-color: #222;
+}
+
+.menu-header img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.user-role {
+    color: #888;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+/* Links do Menu */
+.menu-links a {
+    display: block;
+    padding: 12px 16px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.menu-links a:hover {
+    background-color: #333;
+    color: white;
+    border-left-color: #bcf521;
+}
+
+/* Botão Sair (Vermelho) */
+.menu-links a.sair {
+    border-top: 1px solid #333;
+    color: #ff6b6b;
+}
+
+.menu-links a.sair:hover {
+    background-color: #3d1a1a;
+    border-left-color: #ff6b6b;
+}
