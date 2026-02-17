@@ -25,45 +25,7 @@ O Nebbia Studio nasceu da necessidade de criar ferramentas melhores para escrito
 
 ## Como Rodar o Projeto na sua Máquina
 
-Se você quiser testar o Nebbia Studio localmente, siga os passos abaixo.
-
-### 1. Pré-requisitos
-Você precisa ter o **Python** instalado. [Baixe aqui](https://www.python.org/downloads/).
-
-### 2. Clonar o Repositório
-Abra seu terminal (Git Bash ou CMD) e digite:
-
-`bash
-git clone [https://github.com/AnaLuizaS4ntos/NEBIIA_STUDIO.git](https://github.com/AnaLuizaS4ntos/NEBIIA_STUDIO.git)
-cd NEBIIA_STUDIO `
-
-### 3. Criar e Ativar o Ambiente Virtual (Recomendado)
-**No windows**
-` python -m venv venv `
-` venv\Scripts\activate `
-
-**No Mac/Linux**
-` python3 -m venv venv `
-` source venv/bin/activate `
-
-### 4. Instalar as Dependências (Flask e outras)
-O projeto utiliza o Flask. Para instalar todas as ferramentas necessárias de uma vez:
-
-` pip install flask sqlalchemy `
-(Se houver um arquivo requirements.txt, use: pip install -r requirements.txt)
-
-### 5. Configurar o Banco de Dados
-Para garantir que o banco de dados seja criado corretamente na primeira execução:
-
-` python atualizar_banco.py `
-
-### 6. Rodar o Servidor
-Agora é só iniciar a aplicação:
-
-` python app.py `
-
-**Acesse no seu navegador: http://127.0.0.1:5000** (use tbm o ctrl + click)
-
+Abra o link do site: https://nebbia-studio.onrender.com
 
 ### Funcionalidades Atuais
 [x] Autenticação: Login e Registro de novos usuários com segurança.
